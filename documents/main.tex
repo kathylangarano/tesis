@@ -1,0 +1,199 @@
+% Change font size from 12pt to 11pt and add twoside option
+\documentclass[11pt,a4paper,twoside]{report}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+% Load xcolor with the 'table' option to enable \cellcolor
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{tcolorbox} % Add tcolorbox package
+\tcbuselibrary{skins} % Load skins library for advanced borders
+\tcbuselibrary{raster} % Load raster library for grid layout
+\usepackage{helvet} % Use Helvetica (Arial-like) font
+\usepackage{lmodern} % Use Latin Modern fonts instead
+\usepackage{ragged2e} % For better ragged right alignment
+\usepackage{fancyhdr} % Add fancyhdr package for headers/footers
+\usepackage{pgfgantt}
+\usepackage{titlesec} % Add titlesec package
+\usepackage{listings}
+\usepackage{hyperref}
+
+% Customize chapter display format
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % Font settings for the title (apply \Huge here)
+  {}                         % Empty label field (hides "Capítulo X")
+  {0pt}                      % Separation between label and title
+  {}                         % Keep this empty, title is handled by [display] shape
+\titlespacing*{\chapter}
+  {0pt}                      % Left margin
+  {10pt}                     % Space before the title (adjust as needed)
+  {20pt}                     % Space after the title (adjust as needed)
+
+% Set sans-serif as the default font family
+\renewcommand{\familydefault}{\sfdefault} % Use the default sans-serif (now Helvetica)
+
+% Define custom colors
+\definecolor{viuorange}{RGB}{232, 78, 15}
+\definecolor{lightgray}{gray}{0.8} % Define a light gray color for the bottom rule
+% \definecolor{highlightcolor}{RGB}{0, 255, 255} % Removed highlightcolor definition
+
+% Define the custom tcolorbox style for footer elements
+\newtcolorbox{footerbox}[1][]{
+    enhanced, % Needed for borderline feature
+    % attach boxed title to top left={yshift=-2mm, xshift=3mm}, % Removed as likely not needed for this style
+    boxrule=0pt, % No outer frame rule
+    toprule=0pt, % No top line
+    bottomrule=0pt, % No bottom line
+    rightrule=0pt, % No right line
+    leftrule=0pt, % No default left line
+    borderline west={4pt}{0pt}{viuorange}, % Thick orange left border (4pt thick, 0pt offset, viuorange color)
+    colback=white, % White background inside the box
+    colframe=white, % Frame color (not visible, but set for consistency)
+    coltext=black, % Text color is black now
+    sharp corners, % Use sharp corners
+    boxsep=5pt, % Inner padding around the text
+    % width=0.31\textwidth, % Width will be handled by raster, remove or adjust if needed
+    nobeforeafter, % Remove default vertical spacing around the box
+    valign=top, % Align content to the top
+    % height=fill, % Removed this line - let raster handle height equalization
+    #1 % Allow passing additional options if needed
+}
+
+
+% Set page margins
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% Remove page numbers from title page
+\pagenumbering{gobble}
+
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+% Apply single spacing and left alignment (ragged right) globally
+\singlespacing
+\RaggedRight
+
+% Title page
+\begin{titlepage}
+\begin{center}
+
+% University logo
+\includegraphics[width=0.5\textwidth]{viu.png}
+
+\vspace{5cm}
+
+% Title (removed colorbox)
+\parbox{0.8\textwidth}{
+    \centering
+    \Large\textbf{Metodología de pentesting para Smart Contracts} \\
+}
+
+\vspace{8cm} % Adjust this space if needed after changing the footer
+
+\end{center}
+
+% Footer information using tcolorbox raster
+\noindent % Ensure no indentation before the raster
+\begin{tcbraster}[raster columns=3, raster equal height=rows, raster column skip=10pt] % 3 columns, equal height, spacing between columns
+    \begin{footerbox} % First column
+        \textbf{Máster Universitario en Ciberseguridad} \\
+        Curso académico \\
+        2024 - 2025
+    \end{footerbox}
+    % \hfill % Removed, raster handles spacing
+    \begin{footerbox} % Second column
+        \textbf{Alumno:} Langarano \\
+        Guerrero, Miguel \\
+        D.N.I: 0504138934 \\[1ex] % Add some extra vertical space before Tutor
+        \textbf{Tutor de TFM:} Fernández \\
+        Antolín, Marc
+    \end{footerbox}
+    % \hfill % Removed, raster handles spacing
+    \begin{footerbox} % Third column
+        \textbf{Convocatoria:} Segunda \\[4ex] % Add space below Convocatoria
+        \textbf{Fecha de depósito:} 03/05/2025
+    \end{footerbox}
+\end{tcbraster} % End of the raster environment
+
+\vspace{2mm} % Add a small vertical space before the gray line
+
+% Gray bottom rule
+\noindent % Prevent indentation
+{\color{lightgray}\rule{\linewidth}{4pt}} % Draw the gray line (full width, 4pt thick)
+
+
+\end{titlepage}
+
+% Setup fancyhdr for headers and footers
+\pagestyle{fancy} % Apply the fancy page style
+\fancyhf{} % Clear all header and footer fields
+\renewcommand{\headrulewidth}{0pt} % Remove the default header rule line
+\renewcommand{\footrulewidth}{0pt} % Ensure no footer rule line either
+
+% --- Define Footer Content ---
+% Command for the custom footer element on even pages
+\newcommand{\evenfootercontent}{%
+    \textcolor{viuorange}{\rule{1.5ex}{1.5ex}}% Orange square
+    \hspace{1ex}% Space
+    Máster Universitario en Ciberseguridad $|$ Curso académico 2024 - 2025% Text
+}
+% Command for the custom footer element on odd pages
+\newcommand{\oddfootercontent}{%
+    Trabajo Fin de Máster $|$ Metodología de pentesting en Smart Contracts% Text
+    \hspace{1ex}% Space
+    \textcolor{viuorange}{\rule{1.5ex}{1.5ex}}% Orange square
+}
+
+% --- Headers ---
+% Place image on the Right for Odd pages (RO)
+\fancyhead[RO]{\includegraphics[height=1cm]{viu.png}}
+% Place image on the Left for Even pages (LE)
+\fancyhead[LE]{\includegraphics[height=1cm]{viu.png}}
+
+% --- Footers ---
+% Place custom footer content on the Left for Even pages (LE)
+\fancyfoot[LE]{\evenfootercontent}
+% Place page number on the Right for Even pages (RE) - Outer edge
+\fancyfoot[RE]{\thepage}
+% Place page number on the Left for Odd pages (LO) - Outer edge
+\fancyfoot[LO]{\thepage}
+% Place custom footer content on the Right for Odd pages (RO) - Changed from {}
+\fancyfoot[RO]{\oddfootercontent}
+
+% Redefine the 'plain' style used by chapter pages to also use the fancy header/footer
+\fancypagestyle{plain}{%
+  \fancyhf{}% Clear header/footer for plain style
+  \renewcommand{\headrulewidth}{0pt}% Remove header rule for plain style
+  \renewcommand{\footrulewidth}{0pt}% Remove footer rule for plain style
+  % Headers for plain style
+  \fancyhead[RO]{\includegraphics[height=1cm]{viu.png}}% Add image for odd plain pages
+  \fancyhead[LE]{\includegraphics[height=1cm]{viu.png}}% Add image for even plain pages
+  % Footers for plain style
+  \fancyfoot[LE]{\evenfootercontent} % Add custom footer for even plain pages
+  \fancyfoot[RE]{\thepage} % Page number on Right for Even plain pages
+  \fancyfoot[LO]{\thepage} % Page number on Left for Odd plain pages
+  \fancyfoot[RO]{\oddfootercontent} % Add custom footer for odd plain pages - Changed from {}
+}
+
+
+% Rest of the document
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+\include{chapters/introduccion}
+\include{chapters/objetivos}
+\include{chapters/planificacion}
+\include{chapters/desarrollo}
+\include{chapters/resultados}
+\include{chapters/conclusiones}
+
+\appendix
+\include{chapters/anexos} % Include appendix chapter
+
+\bibliographystyle{plain} % You already have this
+\bibliography{referencias} % Add or uncomment this line, using the name of your .bib file
+
+\end{document}
