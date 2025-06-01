@@ -80,7 +80,7 @@
 \begin{center}
 
 % University logo
-\includegraphics[width=0.5\textwidth]{viu.png}
+% \includegraphics[width=0.5\textwidth]{viu.png}
 
 \vspace{5cm}
 
@@ -94,28 +94,7 @@
 
 \end{center}
 
-% Footer information using tcolorbox raster
-\noindent % Ensure no indentation before the raster
-\begin{tcbraster}[raster columns=3, raster equal height=rows, raster column skip=10pt] % 3 columns, equal height, spacing between columns
-    \begin{footerbox} % First column
-        \textbf{Máster Universitario en Ciberseguridad} \\
-        Curso académico \\
-        2024 - 2025
-    \end{footerbox}
-    % \hfill % Removed, raster handles spacing
-    \begin{footerbox} % Second column
-        \textbf{Alumno:} Langarano \\
-        Guerrero, Miguel \\
-        D.N.I: 0504138934 \\[1ex] % Add some extra vertical space before Tutor
-        \textbf{Tutor de TFM:} Fernández \\
-        Antolín, Marc
-    \end{footerbox}
-    % \hfill % Removed, raster handles spacing
-    \begin{footerbox} % Third column
-        \textbf{Convocatoria:} Segunda \\[4ex] % Add space below Convocatoria
-        \textbf{Fecha de depósito:} 03/05/2025
-    \end{footerbox}
-\end{tcbraster} % End of the raster environment
+
 
 \vspace{2mm} % Add a small vertical space before the gray line
 
@@ -132,50 +111,7 @@
 \renewcommand{\headrulewidth}{0pt} % Remove the default header rule line
 \renewcommand{\footrulewidth}{0pt} % Ensure no footer rule line either
 
-% --- Define Footer Content ---
-% Command for the custom footer element on even pages
-\newcommand{\evenfootercontent}{%
-    \textcolor{viuorange}{\rule{1.5ex}{1.5ex}}% Orange square
-    \hspace{1ex}% Space
-    Máster Universitario en Ciberseguridad $|$ Curso académico 2024 - 2025% Text
-}
-% Command for the custom footer element on odd pages
-\newcommand{\oddfootercontent}{%
-    Trabajo Fin de Máster $|$ Metodología de pentesting en Smart Contracts% Text
-    \hspace{1ex}% Space
-    \textcolor{viuorange}{\rule{1.5ex}{1.5ex}}% Orange square
-}
 
-% --- Headers ---
-% Place image on the Right for Odd pages (RO)
-\fancyhead[RO]{\includegraphics[height=1cm]{viu.png}}
-% Place image on the Left for Even pages (LE)
-\fancyhead[LE]{\includegraphics[height=1cm]{viu.png}}
-
-% --- Footers ---
-% Place custom footer content on the Left for Even pages (LE)
-\fancyfoot[LE]{\evenfootercontent}
-% Place page number on the Right for Even pages (RE) - Outer edge
-\fancyfoot[RE]{\thepage}
-% Place page number on the Left for Odd pages (LO) - Outer edge
-\fancyfoot[LO]{\thepage}
-% Place custom footer content on the Right for Odd pages (RO) - Changed from {}
-\fancyfoot[RO]{\oddfootercontent}
-
-% Redefine the 'plain' style used by chapter pages to also use the fancy header/footer
-\fancypagestyle{plain}{%
-  \fancyhf{}% Clear header/footer for plain style
-  \renewcommand{\headrulewidth}{0pt}% Remove header rule for plain style
-  \renewcommand{\footrulewidth}{0pt}% Remove footer rule for plain style
-  % Headers for plain style
-  \fancyhead[RO]{\includegraphics[height=1cm]{viu.png}}% Add image for odd plain pages
-  \fancyhead[LE]{\includegraphics[height=1cm]{viu.png}}% Add image for even plain pages
-  % Footers for plain style
-  \fancyfoot[LE]{\evenfootercontent} % Add custom footer for even plain pages
-  \fancyfoot[RE]{\thepage} % Page number on Right for Even plain pages
-  \fancyfoot[LO]{\thepage} % Page number on Left for Odd plain pages
-  \fancyfoot[RO]{\oddfootercontent} % Add custom footer for odd plain pages - Changed from {}
-}
 
 
 % Rest of the document
@@ -183,15 +119,15 @@
 \clearpage
 
 \pagenumbering{arabic}
-\include{chapters/introduccion}
-\include{chapters/objetivos}
-\include{chapters/planificacion}
-\include{chapters/desarrollo}
-\include{chapters/resultados}
-\include{chapters/conclusiones}
+% \include{chapters/introduccion}
+% \include{chapters/objetivos}
+% \include{chapters/planificacion}
+% \include{chapters/desarrollo}
+% \include{chapters/resultados}
+% \include{chapters/conclusiones}
 
 \appendix
-\include{chapters/anexos} % Include appendix chapter
+% \include{chapters/anexos} % Include appendix chapter
 
 \bibliographystyle{plain} % You already have this
 \bibliography{referencias} % Add or uncomment this line, using the name of your .bib file
