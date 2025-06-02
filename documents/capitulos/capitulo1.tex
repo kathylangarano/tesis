@@ -1,6 +1,68 @@
 \chapter{Capitulo 1}
-Un Smart Contract (Contrato Inteligente) es un algoritmo informático 
+Generalidades
 
-\section{Estándar ERC-20}
-ERC-20 es un estándar de tokens que se utilizan en la blockchain para representar activos digitales, y es utilizado ampliamente en Smart Contracts como estándar para su creación en blockchain.
-Como señalan Wang y Zhang (2021) \cite{chen2020tokenscope}, la estandarización de tokens ha sido un factor clave en la evolución de las finanzas descentralizadas y la tokenización de activos, abriendo nuevas posibilidades para la innovación financiera y tecnológica.
+\section{Introduccion}
+
+En la economía digital actual, donde la competitividad se mide en **velocidad de entrega** y **calidad de servicio**, las organizaciones dependen de flujos de trabajo que garanticen releases frecuentes, estables y seguros. Sin embargo, muchas empresas siguen arrastrando prácticas manuales de integración y despliegue que provocan cuellos de botella, errores en producción y sobrecarga operativa. Frente a este reto, los enfoques de **Integración Continua y Despliegue Continuo (CI/CD)** se han consolidado como el núcleo de la cultura DevOps, al automatizar la compilación, las pruebas y la publicación del software desde el primer commit hasta el entorno productivo (Saleh, Madhavji y Steinbacher, 2024; Velaga, 2021).
+
+La adopción masiva de **servicios en la nube** (IaaS, PaaS y contenedores administrados) ha amplificado la necesidad de pipelines CI/CD eficientes. En entornos cloud, cada minuto de espera entre un cambio de código y su puesta en producción puede traducirse en costos adicionales, pérdida de ventajas competitivas y riesgos de seguridad (Koneru, 2025). 
+
+En este contexto, GitHub Actions se posiciona como una plataforma de automatización as-a-service integrada en el repositorio más popular del mundo, lo que permite detonar workflows declarativos ante cualquier evento del repositorio y coordinar pasos de CI/CD de forma nativa (Adilapuram, 2023). Estudios empíricos muestran que, en menos de cinco años, GitHub Actions ha alcanzado tasas de adopción superiores al 40 % en proyectos públicos, impulsada por su curva de aprendizaje baja y su facilidad para compartir acciones reutilizables (Decan et al., 2022; Wessel et al., 2023).
+
+Además, la orquestación de infraestructura elástica introduce complejidades —versionado de imágenes, gestión de secretos, escalados automáticos— que resultan difíciles de coordinar sin un esquema de automatización robusto (Singireddy, 2024).
+
+En este contexto, **GitHub Actions** emergió en 2019 como un *framework* de automatización nativo en el repositorio más popular del mundo. Su propuesta consiste en convertir cada evento de GitHub (push, pull request, publicación de *release*) en un detonante para flujos declarativos escritos en YAML, capaces de compilar, probar y desplegar aplicaciones en cualquier proveedor cloud sin abandonar el ecosistema GitHub. Estudios recientes destacan su rapidez de adopción y la fluidez con la que se integra en el ciclo de colaboración de los desarrolladores (Brady et al., 2023), señalando además ventajas de curva de aprendizaje y coste frente a soluciones tradicionales como Jenkins o GitLab CI/CD (Adilapuram, 2023). No obstante, la literatura científica revela un espacio todavía incipiente de evaluaciones empíricas que midan, con indicadores comparables, **cuánto** y **cómo** GitHub Actions optimiza realmente la entrega continua en distintas nubes públicas.
+
+La presente tesis se centra en diseñar, implementar y evaluar un pipeline CI/CD con GitHub Actions capaz de optimizar la integración y el despliegue de aplicaciones en la nube. Como caso de estudio se utilizará la aplicación TodoMVC-React—un fork público de kathylangarano/todomvc-react—. Esta Single-Page Application ofrece un dominio funcional sencillo —gestión de una lista de tareas— pero suficientemente representativo: incluye estado global con Redux, pruebas unitarias con Jest, linting con ESLint y potencial de contenerización con Docker. Su selección responde a tres criterios: (1) código bien estructurado y con *testing* listo para CI, (2) licencia permisiva que facilita la reproducción académica y (3) uso de tecnologías predominantes en la industria front-end. Sobre ella se diseñará un pipeline que compile el proyecto, ejecute pruebas, genere imágenes Docker y despliegue automáticamente en Amazon Web Services (ECR + ECS Fargate), aunque la arquitectura quedará preparada para desplegarse a Azure o GCP con cambios mínimos.
+
+\section{Problematica}
+
+A pesar de la madurez de los principios CI/CD, numerosas organizaciones latinoamericanas todavía dependen de flujos semi-manuales que presentan tres grandes desafíos:
+
+Largos ciclos de integración y despliegue. Estudios de línea base revelan que proyectos sin CI/CD tardan entre días y semanas en publicar nuevas versiones, lo que dificulta responder a exigencias del mercado (Singireddy, 2024).
+
+Alta tasa de errores en producción. La ausencia de pruebas automatizadas y de entornos de staging coherentes ocasiona fallas post-release que impactan la experiencia de usuario y generan costos de retrabajo (Brady et al., 2023).
+
+Fragmentación de herramientas y conocimientos. Sistemas tradicionales como Jenkins o Bamboo requieren servidores dedicados, mantenimiento constante y plugins personalizados, lo que eleva la barrera de entrada para equipos pequeños (Adilapuram, 2023).
+
+En consecuencia, la investigación se formula la pregunta: ¿Cómo diseñar un pipeline CI/CD basado en GitHub Actions que reduzca los tiempos de entrega, garantice la calidad del código y sea fácilmente trasladable entre proveedores de nube? Resolver este interrogante permitirá: (i) ofrecer evidencia cuantitativa del impacto de GitHub Actions, (ii) proponer un modelo reproducible para pymes y (iii) sentar bases para investigaciones futuras sobre métricas DevOps en entornos multicloud.
+
+\section{Objetivos}
+
+El **objetivo general** del trabajo es **demostrar** —mediante métricas como tiempo de integración, porcentaje de pruebas exitosas y tasa de errores de despliegue— la capacidad de GitHub Actions para **optimizar** la entrega continua de aplicaciones en la nube. Específicamente se pretende:
+
+1. Analizar las mejores prácticas CI/CD reportadas en años recientes.
+2. Configurar un pipeline automatizado que incluya linting, pruebas y despliegue contenedorizado.
+3. Evaluar empíricamente el rendimiento del pipeline en un entorno cloud real.
+4. Comparar los resultados con las métricas documentadas para herramientas CI/CD alternativas.
+
+La **relevancia** de esta investigación radica en que ofrece una referencia metodológica para organizaciones que buscan adoptar DevOps sin incurrir en complejos despliegues on-premise; presenta evidencia cuantitativa de los beneficios de GitHub Actions; y propone un modelo de pipeline portable, escalable y de bajo coste. 
+En última instancia, el trabajo contribuye a acortar la brecha entre teoría y práctica en ingeniería de software, proporcionando a la comunidad académica y profesional un estudio de caso replicable sobre la automatización de flujos de desarrollo en la era de la computación en la nube.
+
+\section{Justificacion}
+
+Las organizaciones que desarrollan software en la nube compiten hoy en ciclos de entrega cada vez más breves, impulsados por la demanda de disponibilidad continua, escalabilidad y seguridad. En este escenario, los pipelines de Integración Continua y Despliegue Continuo (CI/CD) se han convertido en el estándar para automatizar compilación, pruebas y publicación; su adopción se asocia con reducciones de hasta 30 porcentaje en el tiempo de liberación y 25 porcentaje en fallos post-despliegue (Buttar et al., 2023). Sin embargo, la literatura especializada señala que la complejidad operativa, los costos de mantenimiento de servidores CI tradicionales y la fragmentación de herramientas siguen obstaculizando su adopción plena, sobre todo en pequeñas y medianas empresas que carecen de equipos DevOps dedicados (Adilapuram, 2023)
+
+En 2019 GitHub introdujo GitHub Actions (GHA), un servicio CI/CD-as-a-service embebido en el repositorio más popular del mundo. Su integración nativa con Git, su modelo declarativo en YAML y un marketplace de miles de acciones reutilizables han impulsado una adopción vertiginosa: un estudio sobre 68 000 repositorios halló que el 43,9 porcentaje ya ejecuta GHA para “build-test-deploy” (Decan et al., 2022), mientras que otro trabajo evidenció que la función CI predeterminada de GitHub desplazó en menos de dos años a servicios externos como Travis CI en más de la mitad de los proyectos analizados (Wessel et al., 2023).
+A pesar de esta penetración, persisten vacíos de evidencia empírica sobre cuánto mejora GHA los indicadores DevOps clave —tiempo de integración, tasa de pruebas exitosas, fallos de despliegue— en comparación con herramientas consolidadas como Jenkins o Azure DevOps (Yaganti, 2024).
+Un meta-análisis reciente identificó 66 artículos que tratan la seguridad de CI/CD en la nube, pero reportó una carencia de estudios controlados que midan impactos de desempeño en casos reproducibles (Saleh, Madhavji y Steinbacher, 2024).
+De forma similar, el primer análisis cuantitativo del tooling usado dentro de workflows de GHA concluye que, si bien los linters y frameworks de pruebas aparecen con frecuencia, no se documentan estrategias comparativas ni métricas estandarizadas para evaluar su eficacia (Faqih et al., 2024).
+Estas brechas metodológicas limitan la capacidad de las empresas para justificar inversiones y de la comunidad científica para establecer buenas prácticas basadas en datos.
+La relevancia práctica radica en ofrecer un modelo de pipeline portable y de bajo coste que sirva como guía para equipos que carecen de infraestructura on-premise, mientras que la contribución académica consiste en proporcionar evidencia cuantitativa que complemente los metaanálisis existentes y permita refinar las métricas DevOps aplicadas a la nube. Además, al documentar la configuración detallada de herramientas y workflows, el estudio facilita la replicabilidad y fomenta nuevas líneas de investigación sobre optimización con caching, paralelismo y seguridad de secretos dentro de GitHub Actions.
+
+En síntesis, la investigación se justifica por: (1) la insuficiencia de estudios experimentales que comparen el rendimiento de GHA con herramientas tradicionales; (2) la necesidad de métricas normalizadas que sustenten decisiones de adopción en la nube; y (3) la oportunidad de aportar un caso de uso realista que evidencie los beneficios de integrar pruebas, análisis estático y despliegue contenedorizado en un único pipeline gestionado desde el propio repositorio. Los resultados esperados contribuirán a cerrar la brecha entre teoría y práctica, y servirán de referencia tanto para la academia como para la industria en su transición hacia DevOps y la automatización continua.
+
+#### Referencias
+
+Adilapuram, S. (2023). *GitHub Actions vs. Jenkins: Choosing the optimal CI/CD pipeline for your GCP ecosystem*. SSRN.
+
+Brady, T., Hudson, M., Blake, K., & Cole, J. (2023). *CI/CD pipelines with GitHub Actions and AWS CodePipeline*. Manuscrito no publicado.
+
+Koneru, N. M. K. (2025). Optimizing CI/CD pipelines for multi-cloud environments: Strategies for AWS and Azure integration. *The Eastasouth Journal of Information System and Computer Science, 2*(3), 288-310.
+
+Saleh, S. M., Madhavji, N., & Steinbacher, J. (2024). A systematic literature review on continuous integration and deployment (CI/CD) for secure cloud computing. En *Proceedings of the 20th International Conference on Web Information Systems and Technologies* (pp. 331-341).
+
+Singireddy, S. R. (2024). Analysis of Continuous Integration/Continuous Deployment (CI/CD) pipelines for automated cloud infrastructure management. *International Journal of Core Engineering & Management, 7*(10).
+
+Velaga, S. P. (2021). Continuous Integration and Continuous Deployment (CI/CD): Streamlining software development and delivery processes. *International Journal of Innovative Research in Engineering & Multidisciplinary Physical Sciences, 9*(3).
+
